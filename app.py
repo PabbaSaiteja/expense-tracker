@@ -4,7 +4,7 @@ from datetime import date
 import db
 import plotly.express as px
 
-# ---------------- Streamlit Config -----------------
+
 st.set_page_config(page_title="Expense Tracker", page_icon="💰", layout="wide")
 
 # Initialize database
@@ -19,7 +19,7 @@ choice = st.sidebar.selectbox("Menu", menu)
 # ---------------- Helpers -----------------
 def highlight_large(val):
     """Highlight large expenses in red."""
-    color = "red" if val > 100 else ""  # threshold for highlight
+    color = "red" if val > 100 else ""  
     return f"color: {color}"
 
 def get_top_category(df):
@@ -34,7 +34,7 @@ def get_highest_expense(df):
 
 # ---------------- Add Expense -----------------
 if choice == "Add Expense":
-    st.header("➕ Add a New Expense")
+    st.header(" Add a New Expense")
     col1, col2 = st.columns(2)
     with col1:
         amount = st.number_input("Amount", min_value=0.0, format="%.2f")
@@ -49,14 +49,14 @@ if choice == "Add Expense":
 
 # ---------------- View Expenses -----------------
 elif choice == "View Expenses":
-    st.header("📋 All Expenses")
+    st.header(" All Expenses")
     rows = db.get_expenses()
     if rows:
         df = pd.DataFrame(rows, columns=["id", "amount", "date", "category", "note"])
         df["date"] = pd.to_datetime(df["date"])
 
         # --- Filters in main page ---
-        st.subheader("🔍 Filters")
+        st.subheader(" Filters")
         col1, col2, col3 = st.columns(3)
         with col1:
             start_date = st.date_input("Start Date", df["date"].min().date())
@@ -77,10 +77,10 @@ elif choice == "View Expenses":
 
         # Export CSV
         csv = filtered_df.to_csv(index=False).encode("utf-8")
-        st.download_button("📥 Download CSV", csv, "expenses.csv", "text/csv")
+        st.download_button(" Download CSV", csv, "expenses.csv", "text/csv")
 
         # Update/Delete Section
-        with st.expander("✏️ Update or 🗑 Delete"):
+        with st.expander(" Update or  Delete"):
             exp_id = st.number_input("Expense ID", min_value=1, step=1)
             if st.button("Delete Expense"):
                 db.delete_expense(exp_id)
@@ -97,14 +97,14 @@ elif choice == "View Expenses":
 
 # ---------------- Summary -----------------
 elif choice == "Summary":
-    st.header("📊 Expense Summary")
+    st.header(" Expense Summary")
     rows = db.get_expenses()
     if rows:
         df = pd.DataFrame(rows, columns=["id", "amount", "date", "category", "note"])
         df["date"] = pd.to_datetime(df["date"])
 
         # --- Filters in main page ---
-        st.subheader("🔍 Filters")
+        st.subheader("Filters")
         col1, col2, col3 = st.columns(3)
         with col1:
             start_date = st.date_input("Start Date", df["date"].min().date(), key="sum_start")
@@ -125,9 +125,9 @@ elif choice == "Summary":
         top_category = get_top_category(filtered_df)
         highest_expense = get_highest_expense(filtered_df)
         col1, col2, col3 = st.columns(3)
-        col1.metric("💵 Total Spent", f"${total}")
-        col2.metric("📂 Top Category", top_category)
-        col3.metric("🏆 Highest Expense", f"${highest_expense}")
+        col1.metric("Total Spent", f"${total}")
+        col2.metric(" Top Category", top_category)
+        col3.metric(" Highest Expense", f"${highest_expense}")
 
         # Expenses by Category
         st.subheader("By Category")
@@ -159,3 +159,4 @@ elif choice == "Summary":
             st.plotly_chart(fig3, use_container_width=True)
     else:
         st.info("No expenses yet. Add one!")
+
