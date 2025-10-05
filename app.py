@@ -10,7 +10,7 @@ st.set_page_config(page_title="Expense Tracker", page_icon="💰", layout="wide"
 # Initialize database
 db.init_db()
 
-st.title("💰 Personal Expense Tracker")
+st.title("Personal Expense Tracker")
 
 # ---------------- Sidebar Menu -----------------
 menu = ["Add Expense", "View Expenses", "Summary"]
@@ -159,4 +159,5 @@ elif choice == "Summary":
             st.plotly_chart(fig3, use_container_width=True)
     else:
         st.info("No expenses yet. Add one!")
+
 
